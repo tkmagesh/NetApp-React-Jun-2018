@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Intro</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script>
+		(function(){
+			window.addEventListener('DOMContentLoaded', init);
+			function init(){
+				var btnRender = document.getElementById('btnRender');
+				btnRender.addEventListener('click', renderApp);
+			}
+			function renderApp(){
+				var appElement = React.createElement('div', null, 
+					React.createElement('h1', null, 'React Introduction'),
+					React.createElement('div', null, Date()),
+					React.createElement('hr', null, null),
+					React.createElement('h3', null, 'Introduction'),
+					React.createElement('p', null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi ea tenetur voluptas quaerat ut, deserunt iure magni distinctio nemo error minima, reprehenderit odit placeat at accusamus ad autem perferendis assumenda.'),
+					React.createElement('p', null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi ea tenetur voluptas quaerat ut, deserunt iure magni distinctio nemo error minima, reprehenderit odit placeat at accusamus ad autem perferendis assumenda.'),
+					React.createElement('hr', null, null),
+					React.createElement('h3', null, 'Advantages'),
+					React.createElement('ol', null, 
+						React.createElement('li', null, 'Efficient'),
+						React.createElement('li', null, 'Performance'),
+						React.createElement('li', null, 'Ease of use'),
+					)
+				);
+				ReactDOM.render(appElement, document.getElementById('root'));
+			}
+		})();
+	</script>
+</head>
+<body>
+	<input type="button" value="Render" id="btnRender">
+	<h3 id="clickCount"></h3>
+	<div id="root"></div>
+</body>
+</html>
