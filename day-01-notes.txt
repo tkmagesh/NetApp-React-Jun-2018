@@ -1,0 +1,56 @@
+http://github.com/tkmagesh/netapp-react-jun-2018	
+
+ES6
+
+1. let
+2. const
+3. array destructuring
+4. rest operator
+5. spread operator
+6. object destructuring
+7. default arguments
+8. arrow functions
+9. template strings
+10. object construction
+11. classes
+
+http://es6-features.org
+
+forEach, filter, map, reduce
+
+
+
+<section>
+	<div className="field">
+		<label htmlFor="">Basic :</label>
+		<input type="number" name="" id="txtBasic" />
+	</div>
+	<div className="field">
+		<label htmlFor="">HRA :</label>
+		<input type="number" name="" id="txtHra" />
+	</div>
+	<div className="field">
+		<label htmlFor="">DA :</label>
+		<input type="number" name="" id="txtDa" />
+	</div>
+	<div className="field">
+		<label htmlFor="">Tax :</label>
+		<input type="range" name="" id="rangeTax" min="0" max="30" />
+	</div>
+	<div className="field">
+		<input type="button" value="Calculate" id="btnCalculate" />
+	</div>
+	<div className="field">
+		<table>
+			<tbody>
+				<tr>
+					<td id="tdBasic">[basic]</td>
+					<td id="tdHra">[hra]</td>
+					<td id="tdDa">[da]</td>
+					<td id="tdTax">[tax]</td>
+					<td id="tdSalary">[salary]</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
