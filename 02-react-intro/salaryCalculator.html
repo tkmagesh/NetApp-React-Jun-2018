@@ -17,6 +17,12 @@
 		#tdSalary{
 			font-size: 20pt;
 		}
+		.poorSalary{
+			color : red;
+		}
+		.goodSalary{
+			color : green;
+		}
 	</style>
 	<script src="react.development.js"></script>
 	<script src="react-dom.development.js"></script>
@@ -78,9 +84,12 @@
 			onBasicChange(evt){
 				this.props.model.set('basic', evt.target.value.toInt())
 			}
+			onBtnCalculateClick(){
+				this.props.model.calculate();
+			}
 			render(){
 				let { model } = this.props,
-					{ basic, hra, da, tax, salary } = model.toJSON();
+					data = model.toJSON();
 				return (
 					<section>
 						<div className="field">
@@ -102,20 +111,57 @@
 						<div className="field">
 							<input type="button" value="Calculate" id="btnCalculate" onClick={() => model.calculate()}/>
 						</div>
-						<div className="field">
-							<table>
-								<tbody>
-									<tr>
-										<td id="tdBasic">{basic}</td>
-										<td id="tdHra">{hra}</td>
-										<td id="tdDa">{da}</td>
-										<td id="tdTax">{tax}</td>
-										<td id="tdSalary">{salary}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<SalaryCalculatorResult data={data}/>
 					</section>
+				)
+			}
+		}
+
+		{/*class SalaryCalculatorResult extends React.Component{
+			render(){
+				let { basic, hra, da, tax, salary } = this.props.data;
+				let salaryElement = null;
+				if (salary < 10000){
+					salaryElement = (<td id="tdSalary" className="poorSalary">{salary}</td>)
+				} else {
+					salaryElement = (<td id="tdSalary" className="goodSalary">{salary}</td>)
+				}
+				return(
+					<div className="field">
+						<table>
+							<tbody>
+								<tr>
+									<td id="tdBasic">{basic}</td>
+									<td id="tdHra">{hra}</td>
+									<td id="tdDa">{da}</td>
+									<td id="tdTax">{tax}</td>
+									{salaryElement}
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				)
+			}
+		}*/}
+
+		class SalaryCalculatorResult extends React.Component{
+			render(){
+				let { basic, hra, da, tax, salary } = this.props.data;
+				let salaryElementStyle = salary < 10000 ? 'poorSalary' : 'goodSalary';
+				return(
+					<div className="field">
+						<table>
+							<tbody>
+								<tr>
+									<td id="tdBasic">{basic}</td>
+									<td id="tdHra">{hra}</td>
+									<td id="tdDa">{da}</td>
+									<td id="tdTax">{tax}</td>
+									<td id="tdSalary" className={salaryElementStyle}>{salary}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				)
 			}
 		}
