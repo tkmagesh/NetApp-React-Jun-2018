@@ -81,38 +81,34 @@
 
 		class SalaryCalculator extends React.Component{
 
-			onBasicChange(evt){
-				this.props.model.set('basic', evt.target.value.toInt())
-			}
-			onBtnCalculateClick(){
-				this.props.model.calculate();
-			}
+			
 			render(){
 				let { model } = this.props,
-					data = model.toJSON();
+					data = model.toJSON(),
+					rangeAttrs = { min : 0, max : 30};
 				return (
 					<section>
-						<div className="field">
-							<label htmlFor="">Basic :</label>
-							<input type="number" id="txtBasic" onChange={(evt) => model.set('basic', evt.target.value.toInt())} />
-						</div>
-						<div className="field">
-							<label htmlFor="">HRA :</label>
-							<input type="number" id="txtHra" onChange={(evt) => model.set('hra', evt.target.value.toInt())}/>
-						</div>
-						<div className="field">
-							<label htmlFor="">DA :</label>
-							<input type="number" id="txtDa" onChange={(evt) => model.set('da', evt.target.value.toInt())}/>
-						</div>
-						<div className="field">
-							<label htmlFor="">Tax :</label>
-							<input type="range" id="rangeTax" min="0" max="30" onChange={(evt) => model.set('tax', evt.target.value.toInt())}/>
-						</div>
+						<SalaryCalculatorInput inputType="number" displayName="Basic :" onValueChange={(value) => model.set('basic', value)}/>
+						<SalaryCalculatorInput inputType="number" displayName="HRA :" onValueChange={(value) => model.set('hra', value)}/>
+						<SalaryCalculatorInput inputType="number" displayName="DA :" onValueChange={(value) => model.set('da', value)}/>
+						<SalaryCalculatorInput inputType="range" attr={rangeAttrs} displayName="Tax :" onValueChange={(value) => model.set('tax', value)}/>
 						<div className="field">
 							<input type="button" value="Calculate" id="btnCalculate" onClick={() => model.calculate()}/>
 						</div>
 						<SalaryCalculatorResult data={data}/>
 					</section>
+				)
+			}
+		}
+
+		class SalaryCalculatorInput extends React.Component{
+			render(){
+				let { displayName, onValueChange, inputType, attr } = this.props;
+				return(
+					<div className="field">
+						<label htmlFor="">{displayName}</label>
+						<input type={inputType} {...attr} onChange={(evt) => onValueChange(evt.target.value.toInt())} />
+					</div>
 				)
 			}
 		}
