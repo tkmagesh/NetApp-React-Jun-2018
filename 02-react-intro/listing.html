@@ -7,19 +7,41 @@
 	<script src="react-dom.development.js"></script>
 	<script src="babel.min.js"></script>
 	<script type="text/babel">
+		class EventEmitter{
+			_listeners = [];
+			subscribe(listener){
+				if (typeof listener === 'function')
+					this._listeners.push(listener);
+			}
+			triggerChange(){
+				this._listeners.forEach(listener => listener());
+			}
+		}
+		class ProductListModel extends EventEmitter{
+			_list = [];
+			addNew(productName){
+				this._list.push(productName);
+				this.triggerChange();
+			}
+			getAll(){
+				return [...this._list]
+			}
+		}
 		class ProductsApp extends React.Component{
 			render(){
+				let { model } = this.props,
+					products = model.getAll();
 				return(
 					<div>
-						<ProductsStats />
-						<ProductsList />
+						<ProductsStats items={products}/>
+						<ProductsList model={model}/>
 					</div>
 				)
 			}
 		}
 		class ProductsStats extends React.Component{
 			render(){
-				let productsCount = 0;
+				let productsCount = this.props.items.length;
 				return(
 					<div>
 						<label>Total Number of product : </label>
@@ -29,7 +51,7 @@
 			}
 		}
 		class ProductsList extends React.Component{
-			state = {products : []};
+			
 			txtProductNameRef = React.createRef();
 
 			constructor(props){
@@ -37,12 +59,10 @@
 				this.onAddNewClick = this.onAddNewClick.bind(this);
 			}
 			onAddNewClick(){
-				let products = this.state.products;
-				products.push(this.txtProductNameRef.current.value);
-				this.setState({products : products});
+				this.props.model.addNew(this.txtProductNameRef.current.value);
 			}
 			render(){
-				let products = this.state.products;
+				let products = this.props.model.getAll();
 				/*let productItems = [];
 				for(let index=0, count=products.length; index < count; index++){
 					let productItem = (<li key={index}>{products[index]}</li>);
@@ -61,8 +81,13 @@
 				);
 			}
 		}
-		ReactDOM.render(<ProductsApp/>,
-			document.getElementById('root'));
+		var productListModel = new ProductListModel();
+		function renderApp(){
+			ReactDOM.render(<ProductsApp model={productListModel}/>,
+				document.getElementById('root'));
+		}
+		renderApp();
+		productListModel.subscribe(renderApp);
 	</script>
 </head>
 <body>
