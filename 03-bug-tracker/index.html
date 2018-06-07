@@ -63,14 +63,16 @@
 				this._listeners.forEach(listener => listener());
 			}
 		}
-		class BugModel{
+		class BugModel extends EventEmitter{
 			name = '';
 			isClosed = false;
 			constructor(name){
+				super();
 				this.name = name;
 			}
 			toggle(){
 				this.isClosed = !this.isClosed;
+				this.triggerChange();
 			}
 		}
 		class BugTrackerModel extends EventEmitter{
@@ -78,11 +80,16 @@
 
 			addNew(bugName){
 				let newBug = new BugModel(bugName);
+				newBug.subscribe(this.triggerChange.bind(this));
 				this._list.push(newBug);
 				this.triggerChange();
 			}
 			getAll(){
 				return [...this._list];
+			}
+			removeClosed(){
+				this._list = this._list.filter(bug => !bug.isClosed);
+				this.triggerChange();
 			}
 			
 		}
@@ -113,10 +120,14 @@
 			constructor(props){
 				super(props);
 				this.onAddNewClick = this.onAddNewClick.bind(this);
+				this.onRemoveClosedClick = this.onRemoveClosedClick.bind(this);
 			}
 			onAddNewClick(){
 				let bugName = this.txtBugNameRef.current.value;
 				this.props.model.addNew(bugName);
+			}
+			onRemoveClosedClick(){
+				this.props.model.removeClosed();
 			}
 			render(){
 				let { model } = this.props,
@@ -149,7 +160,7 @@
 							<ol>
 								{bugItems}
 							</ol>
-							<input type="button" value="Remove Closed" />
+							<input type="button" value="Remove Closed" onClick={this.onRemoveClosedClick} />
 						</section>
 					</div>
 				)
