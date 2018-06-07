@@ -7,9 +7,42 @@
 	<script src="react-dom.development.js"></script>
 	<script src="babel.min.js"></script>
 	<script type="text/babel">
-		class ProductsList extends React.Component{
+		class ProductsApp extends React.Component{
 			render(){
-				let products = [];
+				return(
+					<div>
+						<ProductsStats />
+						<ProductsList />
+					</div>
+				)
+			}
+		}
+		class ProductsStats extends React.Component{
+			render(){
+				let productsCount = 0;
+				return(
+					<div>
+						<label>Total Number of product : </label>
+						{productsCount}
+					</div>
+				)
+			}
+		}
+		class ProductsList extends React.Component{
+			state = {products : []};
+			txtProductNameRef = React.createRef();
+
+			constructor(props){
+				super(props);
+				this.onAddNewClick = this.onAddNewClick.bind(this);
+			}
+			onAddNewClick(){
+				let products = this.state.products;
+				products.push(this.txtProductNameRef.current.value);
+				this.setState({products : products});
+			}
+			render(){
+				let products = this.state.products;
 				/*let productItems = [];
 				for(let index=0, count=products.length; index < count; index++){
 					let productItem = (<li key={index}>{products[index]}</li>);
@@ -19,8 +52,8 @@
 				return(
 					<div>
 						<label>Product Name :</label>
-						<input type="text" />
-						<input type="button" value="Add New"/>
+						<input type="text" ref={this.txtProductNameRef}/>
+						<input type="button" value="Add New" onClick={this.onAddNewClick}/>
 						<ol>
 							{productItems}
 						</ol>
@@ -28,7 +61,7 @@
 				);
 			}
 		}
-		ReactDOM.render(<ProductsList/>,
+		ReactDOM.render(<ProductsApp/>,
 			document.getElementById('root'));
 	</script>
 </head>
