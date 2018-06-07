@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spinner</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script src="stateManager.js"></script>
+	<script type="text/babel">
+		function spinnerReducer(currentState = 0, action){
+			if (action.type === 'INCREMENT')
+				return ++currentState;
+			if (action.type === 'DECREMENT')
+				return --currentState;
+			return currentState;
+		}
+
+
+
+		{/*class Spinner extends React.Component{
+			render(){
+				let { value, increment, decrement } = this.props;
+				return(
+					<div>
+						<input type="button" value="DECREMENT" onClick={decrement}/>
+						<span> [{value}] </span>
+						<input type="button" value="INCREMENT" onClick={increment}/>
+					</div>
+				)
+
+			}
+		}*/}
+
+
+		{/*function Spinner(props){
+			let { value, increment, decrement } = props;
+			return(
+				<div>
+					<input type="button" value="DECREMENT" onClick={decrement}/>
+					<span> [{value}] </span>
+					<input type="button" value="INCREMENT" onClick={increment}/>
+				</div>
+			)
+
+		}*/}
+
+		{/*function Spinner({ value, increment, decrement }){
+			return(
+				<div>
+					<input type="button" value="DECREMENT" onClick={decrement}/>
+					<span> [{value}] </span>
+					<input type="button" value="INCREMENT" onClick={increment}/>
+				</div>
+			)
+
+		}*/}
+
+		let Spinner = ({ value, increment, decrement }) => (
+			<div>
+				<input type="button" value="DECREMENT" onClick={decrement}/>
+				<span> [{value}] </span>
+				<input type="button" value="INCREMENT" onClick={increment}/>
+			</div>
+		);
+		
+		var spinnerActionCreators = {
+			increment(){
+				return { type : 'INCREMENT'};
+			},
+			decrement(){
+				return { type : 'DECREMENT' };
+			}
+		};
+
+		function bindActionCreators(spinnerActionCreators, dispatch){
+			return {
+				increment(){
+					let action = spinnerActionCreators.increment();
+					dispatch(action);
+				},
+				decrement(){
+					let action = spinnerActionCreators.decrement();
+					dispatch(action);
+				}
+			}
+		}
+
+		let store = SM.createStore(spinnerReducer);
+		let spinnerActions = bindActionCreators(spinnerActionCreators, store.dispatch);
+
+		function renderApp(){
+			let spinnerValue = store.getState();
+			ReactDOM.render(<Spinner value={spinnerValue} {...spinnerActions}/>,
+				document.getElementById('root'));
+		}
+		renderApp();
+		store.subscribe(renderApp);
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
