@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import appStore from './store';
 import BugTracker from './bugTracker';
@@ -12,7 +13,7 @@ import './index.css';
 class ErrorDisplay extends Component{
 	render(){
 
-		let {errorMessage, show} = this.props.errorData;
+		let {errorMessage, show} = this.props;
 		if (show){
 			return(
 				<div>
@@ -27,7 +28,7 @@ class ErrorDisplay extends Component{
 }
 
 let ConnectedError = connect(
-	({errorData}) => ({errorData}),
+	({errorData}) => (errorData),
 	(dispatch) => {
 		return {
 			hide(){
@@ -41,12 +42,17 @@ let ConnectedError = connect(
 
 ReactDOM.render(
 	<Provider store={appStore}>
-		<div>
-			<ConnectedError>
-				<Spinner/>
-				<hr/>
-				<BugTracker />
-			</ConnectedError>
-		</div>
-	</Provider>,
-	document.getElementById('root'));
+		<Router>
+			<div>
+				<Link to="/">Bug Tracker</Link>
+				<br/>
+				<Link to="/spinner">Spinner</Link>
+				<br />
+			  <Route exact path="/" component={BugTracker} />
+		      <Route path="/bugs" component={BugTracker} />
+		      <Route path="/spinner" component={Spinner} />
+		     </div>
+	    </Router>
+	</Provider>
+	, document.getElementById('root')
+);

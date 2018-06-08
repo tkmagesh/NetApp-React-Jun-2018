@@ -6,7 +6,6 @@ export function load(bugName){
 			.load()
 			.then(bugs => dispatch({ type : 'LOAD', payload : bugs}))
 			.catch(err => {
-				console.log(err);
 				dispatch({ type : 'SHOW_ERROR', payload : 'Unable to load the data'})
 			});
 
