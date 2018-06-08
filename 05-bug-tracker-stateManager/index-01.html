@@ -58,7 +58,18 @@
 			if (action.type === 'ADD_NEW'){
 				let bugName = action.payload,
 					newBug = { name : bugName, isClosed : false};
-				return [...currentState, newBug];
+				let newState = [...currentState, newBug];
+				return newState;
+			}
+			if (action.type === 'UPDATE'){
+				let { oldBug, newBug } = action.payload;
+				let newState = currentState.map(bug => bug === oldBug ? newBug : bug);
+				return newState;
+			}
+			if (action.type === 'REMOVE'){
+				let bugsToRemove = action.payload;
+				let newState = currentState.filter(bug => bugsToRemove.indexOf(bug) === -1);
+				return newState;
 			}
 			return currentState;
 		}
@@ -68,15 +79,16 @@
 				this.onBugNameClick = this.onBugNameClick.bind(this);
 			}
 			onBugNameClick(){
-				let { bug } = this.props;
-				//bug.toggle();
-				console.log(bug);
+				let { bug, toggle } = this.props;
+				toggle(bug);
 			}
 			render(){
 				let { bug } = this.props; 
+				let bugEle = bug.isClosed ? (<span className="bugname closed" onClick={this.onBugNameClick}> {bug.name}</span>) : 
+				(<span className="bugname" onClick={this.onBugNameClick}> {bug.name}</span>)
 				return(
 					<li>
-						<span className="bugname" onClick={this.onBugNameClick}> {bug.name}</span>
+						{bugEle}
 						<div>[{bug.isClosed.toString()}]</div>
 						<div className="datetime">[Created At]</div>
 					</li>
@@ -96,17 +108,18 @@
 				this.props.addNew(bugName);
 			}
 			onRemoveClosedClick(){
-				//this.props.model.removeClosed();
+				this.props.removeClosed(this.props.bugs);
 			}
 			render(){
-				let { bugs } = this.props,
+				let { bugs, toggle } = this.props,
 					bugItems = bugs.map((bug, index) => (
-						<BugItem key={index} bug={bug} />
-					))
+						<BugItem key={index} bug={bug} toggle={toggle}/>
+					)),
+					closedCount = bugs.reduce((prevResult, bug) => bug.isClosed ? ++prevResult : prevResult, 0);
 				return(
 					<div>
 						<section className="stats">
-							<span className="closed">1</span>
+							<span className="closed">{closedCount}</span>
 							<span> / </span>
 							<span>{bugs.length}</span>
 						</section>
@@ -138,6 +151,15 @@
 		let bugActionCreators = {
 			addNew(bugName){
 				return { type : 'ADD_NEW', payload : bugName};
+			},
+			toggle(bugToToggle){
+				let toggledBug = {...bugToToggle, isClosed : !bugToToggle.isClosed};
+				let payload = { oldBug : bugToToggle, newBug : toggledBug };
+				return { type : 'UPDATE', payload : payload};
+			},
+			removeClosed(bugs){
+				let bugsToRemove = bugs.filter(bug => bug.isClosed);
+				return { type : 'REMOVE', payload : bugsToRemove};
 			}
 		}
 
