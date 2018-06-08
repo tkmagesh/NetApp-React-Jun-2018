@@ -5,14 +5,22 @@ import { BugStats, BugSort, BugEdit, BugList } from './views';
 import * as bugActionCreators from './actions';
 
 class BugTracker extends Component{
+	constructor(props){
+		super(props);
+	}
+	componentDidMount(){
+		this.props.load();
+	}
 	render(){
-		let { bugs, toggle, addNew, removeClosed } = this.props;
+		console.log('BugTracker render invoked');
+		let { bugs, toggle, addNew, removeClosed} = this.props;
 		return(
 			<div>
 				<BugStats bugs={bugs} />
 				<BugSort />
-				<BugEdit addNew={addNew} />
+				
 				<BugList {...{bugs, toggle, removeClosed}} />
+				<BugEdit addNew={addNew} />
 			</div>
 		)
 	}

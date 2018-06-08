@@ -1,0 +1,26 @@
+{
+  "bugs": [
+    {
+      "id": 7,
+      "name": "server communication failure",
+      "isClosed": false,
+      "createdAt": "2018-06-08T09:32:24.914Z"
+    },
+    {
+      "id": 8,
+      "name": "This is bug - 1",
+      "isClosed": false,
+      "createdAt": "2018-06-08T10:01:38.301Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "P102",
+      "name": "Bug Tracker"
+    },
+    {
+      "id": "P101",
+      "name": "Payroll Management"
+    }
+  ]
+}

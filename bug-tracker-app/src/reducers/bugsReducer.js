@@ -1,19 +1,23 @@
 export function bugsReducer(currentState = [], action){
+	if (action.type === 'LOAD'){
+		console.log('Load action processing');
+		return action.payload;
+	}
 	if (action.type === 'ADD_NEW'){
-		let bugName = action.payload,
-			newBug = { name : bugName, isClosed : false};
+		let newBug = action.payload;
 		let newState = [...currentState, newBug];
 		return newState;
 	}
 	if (action.type === 'UPDATE'){
 		let { oldBug, newBug } = action.payload;
-		let newState = currentState.map(bug => bug === oldBug ? newBug : bug);
+		let newState = currentState.map(bug => bug.id === oldBug.id ? newBug : bug);
 		return newState;
 	}
 	if (action.type === 'REMOVE'){
-		let bugsToRemove = action.payload;
-		let newState = currentState.filter(bug => bugsToRemove.indexOf(bug) === -1);
+		let bugToRemove = action.payload;
+		let newState = currentState.filter(bug => bugToRemove.id !== bug.id);
 		return newState;
 	}
+	console.log('returning empty array');
 	return currentState;
 }
