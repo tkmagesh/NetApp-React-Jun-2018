@@ -3,7 +3,6 @@ var defaultState = {
 	show : false
 };
 export function errorReducer(currentState = defaultState, action){
-	console.log('errorReducer invoked');
 	if (action.type === 'SHOW_ERROR'){
 		return { errorMessage : action.payload, show : true};
 	}

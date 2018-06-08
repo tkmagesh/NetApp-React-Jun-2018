@@ -8,9 +8,15 @@
     },
     {
       "id": 8,
-      "name": "This is bug - 1",
+      "name": "Promises are not promising",
+      "isClosed": true,
+      "createdAt": "2018-06-08T11:19:15.497Z"
+    },
+    {
+      "id": 9,
+      "name": "Another dummy bug",
       "isClosed": false,
-      "createdAt": "2018-06-08T10:01:38.301Z"
+      "createdAt": "2018-06-08T11:20:46.976Z"
     }
   ],
   "projects": [

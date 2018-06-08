@@ -1,6 +1,5 @@
 export function bugsReducer(currentState = [], action){
 	if (action.type === 'LOAD'){
-		console.log('Load action processing');
 		return action.payload;
 	}
 	if (action.type === 'ADD_NEW'){
@@ -18,6 +17,5 @@ export function bugsReducer(currentState = [], action){
 		let newState = currentState.filter(bug => bugToRemove.id !== bug.id);
 		return newState;
 	}
-	console.log('returning empty array');
 	return currentState;
 }

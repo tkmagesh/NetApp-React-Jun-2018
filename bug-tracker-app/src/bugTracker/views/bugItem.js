@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class BugItem extends Component{
+class BugItem extends PureComponent{
 	constructor(props){
 		super(props);
 		this.onBugNameClick = this.onBugNameClick.bind(this);
@@ -10,6 +10,7 @@ class BugItem extends Component{
 		toggle(bug);
 	}
 	render(){
+		console.log('BugItem render triggered');
 		let { bug } = this.props; 
 		let bugEle = bug.isClosed ? (<span className="bugname closed" onClick={this.onBugNameClick}> {bug.name}</span>) : 
 		(<span className="bugname" onClick={this.onBugNameClick}> {bug.name}</span>)
